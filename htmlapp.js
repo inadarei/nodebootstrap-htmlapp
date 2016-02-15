@@ -6,11 +6,7 @@ var express = require('express')
 
 exports = module.exports;
 
-/**
- * Setting up sensible default configurations
- * @param initapp optional. You can pass-in the app that should be configured.
- */
-module.parent.exports.setAppDefaults = function(initapp) {
+exports.setup = function(initapp) {
 
   var someapp = initapp || express();
 
@@ -30,6 +26,7 @@ module.parent.exports.setAppDefaults = function(initapp) {
   // Last, but not least: Express' default error handler is very useful in dev, but probably not in prod.
   if (('NODE_SERVE_STATIC' in process.env) && process.env['NODE_SERVE_STATIC'] == 1) {
     var pub_dir = CONF.app.pub_dir;
+
     if (pub_dir[0] != '/') { pub_dir = '/' + pub_dir; } // humans are forgetful
     pub_dir = root_dir + pub_dir;
 
@@ -37,22 +34,5 @@ module.parent.exports.setAppDefaults = function(initapp) {
     someapp.use(require('serve-static')(pub_dir));
   }
 
-  if (typeof initapp === 'undefined') return someapp;
-}
-
-/**
- * Default configuration of logging
- */
-function configure_logging() {
-  if ('log' in CONF) {
-
-    if ('plugin' in CONF.log) { process.env.NODE_LOGGER_PLUGIN = CONF.log.plugin; }
-    if ('level'  in CONF.log) { process.env.NODE_LOGGER_LEVEL  = CONF.log.level; }
-
-    if ('customlevels' in CONF.log) {
-      for (var key in CONF.log.customlevels) {
-        process.env['NODE_LOGGER_LEVEL_' + key] = CONF.log.customlevels[key];
-      }
-    }
-  }
+  return someapp;
 }
