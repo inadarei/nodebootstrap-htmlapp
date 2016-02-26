@@ -1,5 +1,4 @@
 var express = require('express')
-  , app     = express()
   , log     = require('metalogger')()
   , CONF    = require('config')
   , http    = require('http');
