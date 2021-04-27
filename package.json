@@ -13,7 +13,7 @@
     "url": "https://github.com/inadarei/nodebootstrap-htmlapp"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=10.0"
   },
   "dependencies": {
     "csurf": "1.x",
